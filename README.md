@@ -1,0 +1,1 @@
+SpendSmart is a full-stack web application that helps users track income and expenses, manage transactions, and visualize their budget. Built with Python Flask for the backend and HTML/CSS/JS for the frontend, it’s deployable on Replit Cloud.
