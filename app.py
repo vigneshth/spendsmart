@@ -5,7 +5,10 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///spendsmart.db"
+
+# Database configuration
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "spendsmart.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -87,8 +90,10 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('login'))
 
+# ----------------- Main -----------------
 if __name__ == '__main__':
-    if not os.path.exists('instance/spendsmart.db'):
-        with app.app_context():
-            db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
