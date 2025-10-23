@@ -1,36 +1,31 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'spendsmart_secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.secret_key = "your_secret_key"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///spendsmart.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-# ------------------ MODELS ------------------
-class User(UserMixin, db.Model):
+# ----------------- Models -----------------
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True)
-    password = db.Column(db.String(150))
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
 
-class Transaction(db.Model):
+class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(10))  # 'income' or 'expense'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    category = db.Column(db.String(100))
     amount = db.Column(db.Float)
-    category = db.Column(db.String(50))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    description = db.Column(db.String(200))
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-# ------------------ ROUTES ------------------
+# ----------------- Routes -----------------
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -38,10 +33,17 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = User(username=username, password=password)
-        db.session.add(user)
+
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash('Username already exists!')
+            return redirect(url_for('register'))
+
+        hashed_pw = generate_password_hash(password)
+        new_user = User(username=username, password=hashed_pw)
+        db.session.add(new_user)
         db.session.commit()
-        flash('Account created! Please log in.')
+        flash('Registration successful! Please log in.')
         return redirect(url_for('login'))
     return render_template('register.html')
 
@@ -50,42 +52,43 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = User.query.filter_by(username=username, password=password).first()
-        if user:
-            login_user(user)
+
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
             return redirect(url_for('dashboard'))
         else:
-            flash('Invalid credentials.')
+            flash('Invalid username or password.')
     return render_template('login.html')
 
-@app.route('/dashboard')
-@login_required
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    transactions = Transaction.query.filter_by(user_id=current_user.id).all()
-    total_income = sum(t.amount for t in transactions if t.type == 'income')
-    total_expense = sum(t.amount for t in transactions if t.type == 'expense')
-    balance = total_income - total_expense
-    return render_template('dashboard.html', transactions=transactions,
-                           income=total_income, expense=total_expense, balance=balance)
+    if 'user_id' not in session:
+        flash('Please log in first.')
+        return redirect(url_for('login'))
 
-@app.route('/add', methods=['POST'])
-@login_required
-def add_transaction():
-    t_type = request.form['type']
-    amount = float(request.form['amount'])
-    category = request.form['category']
-    transaction = Transaction(type=t_type, amount=amount, category=category, user_id=current_user.id)
-    db.session.add(transaction)
-    db.session.commit()
-    return redirect(url_for('dashboard'))
+    if request.method == 'POST':
+        category = request.form['category']
+        amount = float(request.form['amount'])
+        description = request.form['description']
+
+        expense = Expense(user_id=session['user_id'], category=category, amount=amount, description=description)
+        db.session.add(expense)
+        db.session.commit()
+        flash('Expense added!')
+
+    expenses = Expense.query.filter_by(user_id=session['user_id']).all()
+    return render_template('dashboard.html', username=session['username'], expenses=expenses)
 
 @app.route('/logout')
-@login_required
 def logout():
-    logout_user()
-    return redirect(url_for('home'))
+    session.clear()
+    flash('You have been logged out.')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    if not os.path.exists('instance/spendsmart.db'):
+        with app.app_context():
+            db.create_all()
+    app.run(debug=True)
