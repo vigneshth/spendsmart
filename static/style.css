@@ -1,0 +1,21 @@
+/* Reset & base */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body { background:#f4f6f8; color:#333; min-height:100vh; }
+
+.container { max-width:500px; margin:50px auto; background:#fff; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+
+h1,h2 { text-align:center; margin-bottom:20px; color:#2c3e50; }
+
+form { display:flex; flex-direction:column; }
+input,button { padding:12px 15px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; font-size:16px; }
+input:focus { border-color:#3498db; outline:none; }
+button { background:#3498db; color:white; border:none; cursor:pointer; transition:0.3s; }
+button:hover { background:#2980b9; }
+
+a { color:#3498db; text-decoration:none; text-align:center; display:block; margin-top:10px; }
+a:hover { text-decoration:underline; }
+
+.expense-list { list-style:none; }
+.expense-list li { background:#ecf0f1; margin-bottom:10px; padding:12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
+
+@media(max-width:600px){ .container { margin:20px; padding:20px; } }

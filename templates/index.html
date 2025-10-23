@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SpendSmart</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpendSmart</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to SpendSmart</h1>
-    <p><a href="/login">Login</a> | <a href="/register">Register</a></p>
+<div class="container">
+    <h1>Welcome to SpendSmart 💰</h1>
+    <p style="text-align:center;">Track your expenses easily and effectively.</p>
+    <a href="/register"><button>Register</button></a>
+    <a href="/login"><button>Login</button></a>
+</div>
 </body>
 </html>
