@@ -1,17 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpendSmart</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-<div class="container">
-    <h1>Welcome to SpendSmart 💰</h1>
-    <p style="text-align:center;">Track your expenses easily and effectively.</p>
-    <a href="/register"><button>Register</button></a>
-    <a href="/login"><button>Login</button></a>
-</div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero-container">
+  <div class="hero-content">
+    <h1>Take Control of Your Money with SpendSmart 💰</h1>
+    <p>Track your income, manage expenses, and stay within budget — all in one smart dashboard.</p>
+    <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+    <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+  </div>
+</section>
+
+<section class="features-container">
+  <div class="feature-card">
+    <h3>💵 Expense Tracking</h3>
+    <p>Record every transaction easily to stay on top of your spending habits.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📊 Budget Planning</h3>
+    <p>Set category-wise budgets and monitor progress visually with charts.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📈 Analytics</h3>
+    <p>View smart summaries and insights that help you make better financial decisions.</p>
+  </div>
+</section>
+{% endblock %}

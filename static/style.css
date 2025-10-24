@@ -1,21 +1,334 @@
-/* Reset & base */
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-body { background:#f4f6f8; color:#333; min-height:100vh; }
+/* ==================== GLOBAL STYLES ==================== */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f6fb;
+  color: #111827;
+}
 
-.container { max-width:500px; margin:50px auto; background:#fff; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #4f46e5;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
-h1,h2 { text-align:center; margin-bottom:20px; color:#2c3e50; }
+header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
 
-form { display:flex; flex-direction:column; }
-input,button { padding:12px 15px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; font-size:16px; }
-input:focus { border-color:#3498db; outline:none; }
-button { background:#3498db; color:white; border:none; cursor:pointer; transition:0.3s; }
-button:hover { background:#2980b9; }
+header nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: 500;
+}
 
-a { color:#3498db; text-decoration:none; text-align:center; display:block; margin-top:10px; }
-a:hover { text-decoration:underline; }
+header nav a:hover {
+  text-decoration: underline;
+}
 
-.expense-list { list-style:none; }
-.expense-list li { background:#ecf0f1; margin-bottom:10px; padding:12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
+main {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
 
-@media(max-width:600px){ .container { margin:20px; padding:20px; } }
+/* ==================== CARDS ==================== */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* ==================== DASHBOARD ==================== */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.form-section, .budget-section, .charts-section, .transactions-section {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ==================== INPUTS ==================== */
+input, select, button {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+button {
+  background: #4f46e5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #3730a3;
+}
+
+/* ==================== TABLE ==================== */
+.transactions-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-section th, .transactions-section td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.transactions-section tr:hover {
+  background: #f9fafb;
+}
+
+.edit-btn, .delete-btn {
+  border: none;
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ==================== PROGRESS BAR ==================== */
+.progress-item {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #22c55e;
+  transition: width 0.5s ease;
+}
+
+.progress-fill.over {
+  background: #ef4444;
+}
+
+/* ==================== AUTH PAGES ==================== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.auth-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 350px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.auth-box h2 {
+  margin-bottom: 1.5rem;
+}
+
+.auth-footer {
+  margin-top: 1rem;
+}
+
+/* ==================== HERO ==================== */
+.hero-container {
+  background: linear-gradient(120deg, #4f46e5, #6366f1);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  margin: 0.5rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: white;
+  color: #4f46e5;
+}
+
+.btn-secondary {
+  background: #4338ca;
+  color: white;
+}
+/* ===========================
+   Dashboard Layout Enhancements
+=========================== */
+.dashboard-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-section h2 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid #4f46e5;
+  padding-left: 0.75rem;
+  font-weight: 600;
+}
+
+/* ===========================
+   Transaction & Budget Forms
+=========================== */
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.form-group input,
+.form-group select {
+  flex: 1 1 180px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 0.95rem;
+  color: #111827;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+}
+
+/* Buttons */
+.btn {
+  background: #4f46e5;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: #4338ca;
+}
+
+/* ===========================
+   Budget Progress Bars
+=========================== */
+.budget-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.budget-label {
+  font-size: 0.95rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.progress-bar {
+  height: 10px;
+  border-radius: 8px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4f46e5;
+  transition: width 0.4s ease;
+}
+
+/* ===========================
+   Chart Section
+=========================== */
+#expenseChart {
+  max-width: 500px;
+  margin: 2rem auto;
+  display: block;
+}
+
+.chart-placeholder {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  padding: 1rem;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+@media (max-width: 768px) {
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+}
+.charts-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+  text-align: center;
+}
+
+#expenseChart {
+  max-width: 500px;
+  margin: 1rem auto;
+  height: 300px !important;
+}
