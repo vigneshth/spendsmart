@@ -1,5 +1,7 @@
 # SpendSmart – Expense Tracking Web Application
 
+LIVE DEMO:https://drive.google.com/drive/folders/1HdQ24bAzvhrIOQ4MdNUcgyOhVMSAy8sY?usp=sharing
+
 SpendSmart is a web-based expense tracking application developed and deployed using **Replit Cloud**. The application helps users manage their personal finances by tracking income and expenses through a simple and interactive web interface.
 
 Replit Cloud acts as a complete online Integrated Development Environment (IDE), allowing the application to be developed, executed, and hosted entirely in the cloud without requiring any local setup. By leveraging Replit Cloud’s real-time collaboration, instant deployment, and persistent database features, SpendSmart provides an efficient and accessible platform for both development and hosting.
